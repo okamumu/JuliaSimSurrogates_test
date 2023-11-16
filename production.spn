@@ -1,0 +1,40 @@
+
+K = 10
+
+place P1
+place P2
+place P3
+place P4
+place P5
+place P6
+
+exp T1 (rate=lambda, guard=g1)
+exp T2 (rate=mu1, guard=g2)
+exp T3 (rate=mu2, guard=g3)
+exp T4 (rate=mu3, guard=g4)
+exp T5 (rate=mu4, guard=g5)
+exp T6 (rate=mu5)
+
+arc T1 to P1
+arc P1 to T2
+arc T2 to P2
+arc T2 to P3
+arc P2 to T3
+arc P3 to T4
+arc T3 to P4
+arc T4 to P5
+arc P4 to T5
+arc P5 to T5
+arc T5 to P6
+arc P6 to T6
+
+g1 = #P1 < K
+g2 = #P2 < K && #P3 < K
+g3 = #P4 < K
+g4 = #P5 < K
+g5 = #P6 < K
+
+reward rwd1 ifelse(#P1 == K, lambda, 0)
+reward rwd2 ifelse(#P6 >= 1, mu5, 0)
+reward rwd3 #P1 + #P2 + #P3 + #P4 + #P5 + #P6
+reward rwd4 ifelse(#P1 < K, lambda, 0)
